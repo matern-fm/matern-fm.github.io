@@ -1,0 +1,160 @@
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.link-block a {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.teaser .hero-body {
+  padding-top: 0;
+  padding-bottom: 3rem;
+}
+
+.teaser {
+  font-family: 'Google Sans', sans-serif;
+}
+
+.teaser-emphasis {
+  margin-right: 0.08em;
+}
+
+.inline-equation,
+.text-emphasis-gap {
+  margin-right: 0.08em;
+}
+
+.content-heading {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.noise-comparison-layout {
+  align-items: center;
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: minmax(280px, 1fr) minmax(240px, 50%);
+}
+
+.noise-comparison-image {
+  text-align: center;
+}
+
+#BibTeX pre {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+}
+
+@media screen and (max-width: 700px) {
+  .noise-comparison-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #BibTeX pre {
+    font-size: 0.75rem;
+    padding: 1rem;
+  }
+}
+
+.publication-title {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-venue {
+    color: #555;
+    width: fit-content;
+    font-weight: bold;
+}
+
+.publication-authors a {
+   color: hsl(204, 86%, 53%) !important;
+}
+
+.publication-authors a:hover {
+    text-decoration: underline;
+}
+
+.author-block {
+  display: inline-block;
+}
+
+.results-carousel {
+  overflow: hidden;
+}
+
+.video-toggle {
+  gap: 1rem;
+  margin: 0.9rem 0 1.4rem;
+}
+
+.video-toggle .button {
+  background: #fbfbfb;
+  border: 2px solid #e6e6e6;
+  border-radius: 23px;
+  box-shadow: none;
+  color: #555;
+  font-size: 1.2rem;
+  font-weight: 500;
+  height: 58px;
+  line-height: 1;
+  min-width: 17.5rem;
+  padding: 0 2.5rem;
+  text-transform: none;
+}
+
+.video-toggle .button:hover,
+.video-toggle .button:focus {
+  border-color: #d8d8d8;
+  color: #333;
+}
+
+.video-toggle .button.is-selected {
+  background: linear-gradient(110deg, #dff2d8 0%, #edf8f6 52%, #dce8ff 100%);
+  border-color: #bfe0f3;
+  color: #25292b;
+  font-weight: 600;
+}
+
+.video-toggle .button:focus {
+  box-shadow: 0 0 0 0.125em rgba(82, 146, 210, 0.2);
+}
+
+.results-carousel .item {
+  margin: 5px;
+  overflow: hidden;
+  border: 1px solid #bbb;
+  border-radius: 10px;
+  padding: 0;
+  font-size: 0;
+}
+
+.results-carousel .figure {
+  margin: 0;
+}
+
+.results-carousel video {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+@media screen and (max-width: 480px) {
+  .video-toggle {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .video-toggle .button {
+    min-width: 0;
+    width: 100%;
+  }
+}

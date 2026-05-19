@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Matérn Noise for Triangulation-Agnostic Flow Matching on Meshes">
+  <meta name="keywords" content="Matérn Noise, Flow Matching, Mesh Deformation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Matérn Noise for Triangulation-Agnostic Flow Matching on Meshes</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Matérn Noise for Triangulation-Agnostic Flow Matching on Meshes</h1>
+          <div class="is-size-5 publication-authors">
+              <span class="author-block publication-venue">ACM Transactions on Graphics (Proceedings of SIGGRAPH 2026)</span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://tianshukuai.github.io/">Tianshu Kuai</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://armanmaesumi.github.io/">Arman Maesumi</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://dritchie.github.io/">Daniel Ritchie</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://noamaig.github.io/">Noam Aigerman</a><sup>1</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Université de Montréal &amp; Mila,</span>
+            <span class="author-block"><sup>2</sup>Brown University</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="paper_link"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="paper_link"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="paper_link"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper (Compressed)</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/kts707/matern-fm"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/kts707/matern-fm-data"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+        <img src="./static/images/teaser.png" alt="Generated elastic equilibrium states">
+      <h2 class="subtitle has-text-centered">
+      </h2>
+      <h2 class="subtitle has-text-centered">
+        Generating different elastic equilibrium states through <em class="teaser-emphasis">triangulation-agnostic</em> flow matching.
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+
+<section id="section" class="section has-background-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            This paper tackles the task of learning to generate signals over triangle meshes in a triangulation-agnostic manner, meaning the trained model can be applied to different meshes and triangulations effectively. This property is critical for real-world applications, as it enables operating over heterogeneous triangulations, and yields significantly more efficient performance, enabling generation over large (one million faces) meshes. 
+          </p>
+          <p>
+          Practically, the paper adapts the flow matching (FM) paradigm to a mesh-based, triangulation-agnostic setting. Theoretically, it proposes a specific noise distribution which is triangulation agnostic, to be used inside the FM model's denoising process. While noise distributions are usually trivial to devise for, e.g., images, devising a triangulation-agnostic distribution proves to be a much more difficult task. 
+          We formulate a mathematical definition of triangulation agnosticism of distributions, via their spectrum. We then show that a discretization of a specific Gaussian random field called a <em>Matérn process</em> holds these desired properties, and provides a simple and efficient sampling algorithm. We use it as our noise model, and adapt FM to the triangulation-agnostic setting by using a state-of-the-art approach for learning signals on meshes in the gradient domain&mdash;PoissonNet&mdash;as the denoiser. 
+          </p>
+          <p>
+            We conduct experiments on elaborate tasks such as sampling elastic rest states of an object, and generating different poses of arbitrary humanoids. Our method is shown to be capable of producing highly realistic results for meshes of over one million triangles, significantly exceeding the state-of-the-art in quality and diversity.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">What's our proposed <em>Matérn noise</em>&thinsp;&thinsp;on meshes?</h2>
+
+    <div class="noise-comparison-layout">
+      <div>
+        <div class="content">
+          <p class="content-heading">Matérn noise vs. iid Gaussian</p>
+          <p>
+            Our Matérn noise is <em>triangulation-agnostic</em>,
+            meaning that it yields similar distributions for different discretizations of the same underlying surface. 
+            See the figure for visual comparisons of our Matérn noise with simple iid Gaussian on different
+            meshes.
+          </p>
+          
+          <p class="content-heading">How to sample Matérn noise?</p>
+          <p>
+            Matérn noise <span class="inline-equation">$\textbf{f}$</span> is sampled by solving a <em class="text-emphasis-gap">screened Poisson equation</em> as:
+          </p>
+          $$
+          (\textbf{L} + \boldsymbol{\tau}\textbf{M})\textbf{f} = \textbf{M}\textbf{w},
+          $$
+          <p>
+          where $\textbf{L}$ and $\textbf{M}$ are the mesh's cotangent Laplacian and lumped mass matrix, 
+          $\textbf{w} \sim \mathcal{N}(\textbf{0}, \textbf{M}^{-1})$ is a white noise sample, and
+          $\boldsymbol{\tau}$ is the user-chosen screening term controlling the amount of higher frequency content in the noise 
+          (see the figure for how it affects the noise distribution). Check our paper for details on Matérn noise.
+          </p>
+          </div>
+      </div>
+
+      <div class="noise-comparison-image">
+        <figure>
+          <img src="./static/images/noise_images.png" alt="Matérn noise visual comparison" style="width:100%; height:auto; max-width:100%;" loading="lazy" decoding="async">
+          <figcaption class="is-size-6" style="margin-top:0.5rem; text-align:left; font-weight:700;">
+            <div>Top 3 rows: different discretizations of the same 2D square.</div>
+            <div>Bottom row: a non-uniformly triangulated Stanford bunny.</div>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="content">
+      <h2 class="title is-3">Overview</h2>
+      <img src="./static/images/overview.png" alt="Overview" style="width:100%; height:auto;" loading="lazy" decoding="async">
+      <p>
+        <i><b>Overview of triangulation-agnostic generative pipeline.</b></i> We first perform <em>noise sampling</em> (left) from our proposed triangulation-agnostic Matérn noise distribution. We then use that noise as the initial signal $\textbf{f}_0$ in a <em>flow matching denoising process</em> (middle), which iteratively denoises the signal into the final sample $\textbf{f}_1$. In each <em>flow step</em> (right) we input the current signal $\textbf{f}_\text{t}$ into PoissonNet, which predicts the current momentary velocity $\textbf{v}_{\text{t}}$. An ODE step time-integrates the velocity, starting from the current signal $\textbf{f}_\text{t}$, to obtain the next signal $\textbf{f}_{\text{t}+\Delta \text{t}}$. This continues until reaching $\text{t}=1$.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">Flow matching denoising process</h2>
+      <div class="video-toggle buttons is-centered" role="group" aria-label="Select result videos">
+        <button class="button is-link is-selected" type="button" data-video-filter="elastic" aria-pressed="true">
+          Elastic equilibrium states
+        </button>
+        <button class="button" type="button" data-video-filter="smpl" aria-pressed="false">
+          Yoga poses of SMPL human
+        </button>
+      </div>
+
+      <div id="elastic-results-carousel" class="carousel results-carousel video-carousel" data-video-category="elastic">
+
+        <div class="item item-0">
+          <figure class="figure">
+            <video poster="" id="0" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/octopus1.mp4" type="video/mp4">
+            </video>
+          </figure>
+        </div>
+
+        <div class="item item-1">
+          <figure class="figure">
+            <video poster="" id="1" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/octopus2.mp4" type="video/mp4">
+            </video>
+          </figure>
+        </div>
+
+        <div class="item item-2">
+          <figure class="figure">
+            <video poster="" id="2" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/elephant1.mp4" type="video/mp4">
+            </video>
+          </figure>
+        </div>
+
+        <div class="item item-3">
+          <figure class="figure">
+            <video poster="" id="3" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/elephant2.mp4" type="video/mp4">
+            </video>
+          </figure>
+        </div>
+
+        <div class="item item-4">
+          <figure class="figure">
+            <video poster="" id="4" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/fish1.mp4" type="video/mp4">
+            </video>
+          </figure>
+        </div>
+
+        <div class="item item-5">
+          <figure class="figure">
+            <video poster="" id="5" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/fish2.mp4" type="video/mp4">
+            </video>
+          </figure>
+        </div>
+
+        <div class="item item-6">
+          <figure class="figure">
+            <video poster="" id="6" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/bunny1.mp4" type="video/mp4">
+            </video>
+          </figure>
+        </div>
+
+        <div class="item item-7">
+          <figure class="figure">
+            <video poster="" id="7" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/bunny2.mp4" type="video/mp4">
+            </video>
+          </figure>
+        </div>
+
+      </div>
+
+      <div id="smpl-results-carousel" class="carousel results-carousel video-carousel is-hidden" data-video-category="smpl">
+
+        <div class="item item-8">
+          <figure class="figure">
+            <video poster="" id="8" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/smpl1.mp4" type="video/mp4">
+            </video>
+          </figure>
+        </div>
+
+        <div class="item item-9">
+          <figure class="figure">
+            <video poster="" id="9" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/smpl2.mp4" type="video/mp4">
+            </video>
+          </figure>
+        </div>
+
+        <div class="item item-10">
+          <figure class="figure">
+            <video poster="" id="10" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/smpl3.mp4" type="video/mp4">
+            </video>
+          </figure>
+        </div>
+
+        <div class="item item-11">
+          <figure class="figure">
+            <video poster="" id="11" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/smpl4.mp4" type="video/mp4">
+            </video>
+          </figure>
+        </div>
+
+        <div class="item item-12">
+          <figure class="figure">
+            <video poster="" id="12" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/smpl5.mp4" type="video/mp4">
+            </video>
+          </figure>
+        </div>
+
+        <div class="item item-13">
+          <figure class="figure">
+            <video poster="" id="13" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/smpl6.mp4" type="video/mp4">
+            </video>
+          </figure>
+        </div>
+
+        <div class="item item-14">
+          <figure class="figure">
+            <video poster="" id="14" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/smpl7.mp4" type="video/mp4">
+            </video>
+          </figure>
+        </div>
+
+        <div class="item item-15">
+          <figure class="figure">
+            <video poster="" id="15" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/smpl8.mp4" type="video/mp4">
+            </video>
+          </figure>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="content">
+      <h2 class="title is-3">Triangulation-agnostic generation</h2>
+      <h2 class="title is-5">Generated elastic equilibrium states (model only trained on 10k-face resolution)</h2>
+      <img src="./static/images/elephant.png" alt="Triangulation-Agnostic Generation" style="width:100%; height:auto; margin-bottom:1rem;" loading="lazy" decoding="async">
+
+      <h2 class="title is-5">Generated yoga poses of SMPL human (model only trained on 18k-face resolution)</h2>
+      <img src="./static/images/smpl.png" alt="SMPL poses" style="width:100%; height:auto;" loading="lazy" decoding="async">
+
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="content">
+      <h2 class="title is-3">Generated yoga poses of unseen humanoid meshes</h2>
+      <img src="./static/images/humanoids.png" alt="Unseen humanoid poses" style="width:100%; height:auto;" loading="lazy" decoding="async">
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{kuai2026matern,
+  author    = {Kuai, Tianshu and Maesumi, Arman and Ritchie, Daniel and Aigerman, Noam},
+  title     = {Matérn Noise for Triangulation-Agnostic Flow Matching on Meshes},
+  journal   = {ACM Transactions on Graphics (Proceedings of SIGGRAPH 2026)},
+  year      = {2026},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>. The website template is borrowed from <a
+              href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>. 
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
